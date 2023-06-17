@@ -9,10 +9,24 @@ export default function Board() {
         return [Math.floor(Math.random() * SIZE), Math.floor(Math.random() * SIZE)];
     }
 
+    function validCords(x, y) {
+        if (x < 0 || x >= SIZE || y < 0 || y >= SIZE || isPopulated(x, y)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function isPopulated(x, y) {
+        return arr[x][y] == 1;
+    }
+
     return {
         show: () => arr,
-        isPopulated: (x, y) => Boolean(arr[x][y]),
+        isPopulated,
         populate: (x, y) => (arr[x][y] = 1),
+        validCords,
         getRandomCoordinates,
+        getSize: () => SIZE,
     };
 }

@@ -12,4 +12,10 @@ describe("Board", () => {
     it("Detects unpopulated cords", () => {
         expect(board.isPopulated(0, 0)).toBe(false);
     });
+
+    it("Validates cords", () => {
+        expect(board.validCords(-4, 504)).toBe(false);
+        expect(board.validCords(-4, 0)).toBe(false);
+        expect(board.validCords(0, 0)).toBe(true);
+    });
 });
