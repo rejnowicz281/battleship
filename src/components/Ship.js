@@ -1,5 +1,4 @@
-export default function Ship(length, head) {
-    let direction = "right";
+export default function Ship(length, head, direction = "right") {
     let hits = [];
     let cords = getCords();
 
@@ -31,6 +30,11 @@ export default function Ship(length, head) {
         } else if (direction == "up") {
             direction = "right";
         }
+        cords = getCords();
+    }
+
+    function moveTo(row, column) {
+        head = [row, column];
         cords = getCords();
     }
 
@@ -68,6 +72,8 @@ export default function Ship(length, head) {
         rotate,
         hit,
         isDestroyed,
+        moveTo,
+        getDirection: () => direction,
         getCords: () => cords,
         getHead: () => head,
         getHits: () => hits,

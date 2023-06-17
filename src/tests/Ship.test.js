@@ -52,4 +52,13 @@ describe("Ship", () => {
             [0, 2],
         ]);
     });
+
+    it("Can move to different cords", () => {
+        ship.moveTo(0, 1);
+        expect(ship.getCords()).toEqual([
+            [0, 1],
+            [0, 2],
+            [0, 3],
+        ]);
+    });
 });
