@@ -5,6 +5,14 @@ export default function Board() {
         .fill(0)
         .map(() => Array(SIZE).fill(0));
 
+    function show() {
+        console.log(" ");
+        arr.forEach((row) => {
+            console.log(row);
+        });
+        console.log(" ");
+    }
+
     function getRandomCoordinates() {
         return [Math.floor(Math.random() * SIZE), Math.floor(Math.random() * SIZE)];
     }
@@ -22,7 +30,7 @@ export default function Board() {
     }
 
     return {
-        show: () => arr,
+        show,
         isPopulated,
         populate: (x, y) => (arr[x][y] = 1),
         validCords,
