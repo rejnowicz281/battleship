@@ -4,8 +4,12 @@ export default function Game() {
     let playerHuman = Player();
     let playerComputer = Player();
 
+    function start() {
+        playerHuman.chooseStartShips();
+        playerComputer.chooseStartShips(true);
+    }
+
     return {
-        playerHuman,
-        playerComputer,
+        start,
     };
 }
