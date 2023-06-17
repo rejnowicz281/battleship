@@ -1,6 +1,38 @@
-export default function Ship(cords) {
-    const length = cords.length;
+export default function Ship(length, head) {
+    let direction = "right";
     let hits = [];
+    let cords = getCords();
+
+    function getCords() {
+        let cords = [];
+        for (let i = 0; i < length; i++) {
+            let cord;
+            if (direction == "right") {
+                cord = [head[0], head[1] + i];
+            } else if (direction == "down") {
+                cord = [head[0] - i, head[1]];
+            } else if (direction == "left") {
+                cord = [head[0], head[1] - i];
+            } else if (direction == "up") {
+                cord = [head[0] + i, head[1]];
+            }
+            cords.push(cord);
+        }
+        return cords;
+    }
+
+    function rotate() {
+        if (direction == "right") {
+            direction = "down";
+        } else if (direction == "down") {
+            direction = "left";
+        } else if (direction == "left") {
+            direction = "up";
+        } else if (direction == "up") {
+            direction = "right";
+        }
+        cords = getCords();
+    }
 
     function hit(hitRow, hitColumn) {
         if (legalHit(hitRow, hitColumn)) {
@@ -33,11 +65,12 @@ export default function Ship(cords) {
     }
 
     return {
+        rotate,
         hit,
         isDestroyed,
-        getHead: () => cords[0],
-        getHits: () => hits,
         getCords: () => cords,
+        getHead: () => head,
+        getHits: () => hits,
         getLength: () => length,
     };
 }
