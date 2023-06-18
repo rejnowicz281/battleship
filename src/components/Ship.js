@@ -1,5 +1,5 @@
 export default function Ship(length, head, direction = "left") {
-    let hits = [];
+    let hits = 0;
     let cords = getCords();
 
     function getCords() {
@@ -20,6 +20,10 @@ export default function Ship(length, head, direction = "left") {
         return cords;
     }
 
+    function hasCord(row, column) {
+        return cords.some((cord) => cord[0] == row && cord[1] == column);
+    }
+
     function rotate() {
         if (direction == "right") {
             direction = "down";
@@ -38,9 +42,9 @@ export default function Ship(length, head, direction = "left") {
         cords = getCords();
     }
 
-    function hit(hitRow, hitColumn) {
-        if (legalHit(hitRow, hitColumn)) {
-            hits.push([hitRow, hitColumn]);
+    function hit() {
+        if (!isDestroyed()) {
+            hits++;
             return true;
         } else {
             return false;
@@ -48,24 +52,7 @@ export default function Ship(length, head, direction = "left") {
     }
 
     function isDestroyed() {
-        if (hits.length) {
-            hits.forEach((hitCord) => {
-                if (!cords.some((cord) => cord[0] == hitCord[0] && cord[1] == hitCord[1])) {
-                    return false;
-                }
-            });
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function isHitAt(hitRow, hitColumn) {
-        return hits.some((cord) => cord[0] == hitRow && cord[1] == hitColumn);
-    }
-
-    function legalHit(hitRow, hitColumn) {
-        return cords.some((cord) => cord[0] == hitRow && cord[1] == hitColumn) && !isHitAt(hitRow, hitColumn);
+        return hits == length;
     }
 
     return {
@@ -73,6 +60,7 @@ export default function Ship(length, head, direction = "left") {
         hit,
         isDestroyed,
         moveTo,
+        hasCord,
         getDirection: () => direction,
         getCords: () => cords,
         getHead: () => head,
