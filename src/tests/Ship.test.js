@@ -8,6 +8,14 @@ describe("Ship", () => {
         ship = Ship(3, [0, 0]); // [0,0], [0,1], [0,2]
     });
 
+    it("Gets correct cords", () => {
+        expect(ship.getCords()).toEqual([
+            [0, 0],
+            [0, 1],
+            [0, 2],
+        ]);
+    });
+
     it("Can get destroyed", () => {
         ship.hit();
         expect(ship.isDestroyed()).toBe(false);
