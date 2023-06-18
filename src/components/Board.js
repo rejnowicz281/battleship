@@ -2,13 +2,19 @@ export default function Board() {
     const SIZE = 10;
 
     let arr = Array(SIZE)
-        .fill(0)
-        .map(() => Array(SIZE).fill(0));
+        .fill(" ")
+        .map(() => Array(SIZE).fill(" "));
 
-    function show() {
+    function show(showShips = true) {
         console.log(" ");
-        arr.forEach((row) => {
-            console.log(row);
+        console.log("     0   1   2   3   4   5   6   7   8   9");
+        arr.forEach((row, i) => {
+            let rowString = `${i}  |`;
+            row.forEach((cell) => {
+                let cellString = !showShips && cell == "S" ? " " : cell;
+                rowString += ` ${cellString} |`;
+            });
+            console.log(rowString);
         });
         console.log(" ");
     }
@@ -17,22 +23,54 @@ export default function Board() {
         return [Math.floor(Math.random() * SIZE), Math.floor(Math.random() * SIZE)];
     }
 
-    function validCords(x, y) {
-        if (x < 0 || x >= SIZE || y < 0 || y >= SIZE || isPopulated(x, y)) {
+    function validCords(row, column) {
+        if (row < 0 || row >= SIZE || column < 0 || column >= SIZE) {
             return false;
         } else {
             return true;
         }
     }
 
-    function isPopulated(x, y) {
-        return arr[x][y] == 1;
+    function isCellAt(row, column, value) {
+        if (validCords(row, column)) {
+            return arr[row][column] == value;
+        } else {
+            return false;
+        }
+    }
+
+    function isShipAt(row, column) {
+        return isCellAt(row, column, "S") || isCellAt(row, column, "H");
+    }
+
+    function hit(row, column) {
+        if (validCords(row, column) && !isCellAt(row, column, "H") && !isCellAt(row, column, "M")) {
+            if (isShipAt(row, column)) {
+                setCell(row, column, "H");
+            } else {
+                setCell(row, column, "M");
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getCell(row, column) {
+        return arr[row][column];
+    }
+
+    function setCell(row, column, value) {
+        if (value == "H" || value == "M" || value == "S") arr[row][column] = value;
     }
 
     return {
         show,
-        isPopulated,
-        populate: (x, y) => (arr[x][y] = 1),
+        isCellAt,
+        isShipAt,
+        getCell,
+        setCell,
+        hit,
         validCords,
         getRandomCoordinates,
         getSize: () => SIZE,

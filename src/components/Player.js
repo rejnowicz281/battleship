@@ -9,6 +9,7 @@ export default function Player(name = "Player") {
         let shipLength = 5;
 
         while (shipLength >= 1) {
+            console.log(`Player '${name}' choosing ship of length ${shipLength}:`);
             if (random) {
                 addRandomShip(shipLength);
             } else {
@@ -53,9 +54,10 @@ export default function Player(name = "Player") {
     function addShip(ship) {
         if (!illegalShip(ship)) {
             ship.getCords().forEach((cord) => {
-                board.populate(cord[0], cord[1]);
+                board.setCell(cord[0], cord[1], "S");
             });
             ships.push(ship);
+            console.log(`Ship added: (${ship.getCords().join("), (")})`);
             board.show();
             return true;
         } else {
@@ -65,7 +67,7 @@ export default function Player(name = "Player") {
     }
 
     function illegalShip(ship) {
-        return ship.getCords().some((cord) => !board.validCords(cord[0], cord[1]));
+        return ship.getCords().some((cord) => !board.validCords(cord[0], cord[1]) || board.isShipAt(cord[0], cord[1]));
     }
 
     return {
