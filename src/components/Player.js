@@ -68,7 +68,9 @@ export default function Player(name = "Player") {
     }
 
     function illegalShip(ship) {
-        return ship.getCords().some((cord) => !board.validCords(cord[0], cord[1]) || board.isShipAt(cord[0], cord[1]));
+        return ship
+            .getCords()
+            .some((cord) => !board.validCords(cord[0], cord[1]) || board.isCellAt(cord[0], cord[1], "S"));
     }
 
     function allShipsDestroyed() {
