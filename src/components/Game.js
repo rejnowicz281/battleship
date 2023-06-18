@@ -54,7 +54,7 @@ export default function Game() {
                     if (shipAtCell) {
                         shipAtCell.hit();
                     }
-                    otherPlayer().board.show();
+                    otherPlayer().board.show(false);
                     if (otherPlayer().allShipsDestroyed()) {
                         return console.log(`Player '${currentPlayer.getName()}' has won the game.`);
                     } else {
