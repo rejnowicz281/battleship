@@ -24,59 +24,36 @@ export default function Board() {
     }
 
     function validCords(row, column) {
-        if (isNaN(row) || isNaN(column) || row < 0 || row >= SIZE || column < 0 || column >= SIZE) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(isNaN(row) || isNaN(column) || row < 0 || row >= SIZE || column < 0 || column >= SIZE);
     }
 
     function isCellAt(row, column, value) {
-        if (validCords(row, column)) {
-            return arr[row][column] == value;
-        } else {
-            return false;
-        }
-    }
-
-    function isShipAt(row, column) {
-        return isCellAt(row, column, "S") || isCellAt(row, column, "H");
-    }
-
-    function hit(row, column) {
-        if (validCords(row, column) && !isCellAt(row, column, "H") && !isCellAt(row, column, "M")) {
-            if (isShipAt(row, column)) {
-                setCell(row, column, "H");
-            } else {
-                setCell(row, column, "M");
-            }
-            return true;
-        } else {
-            return false;
-        }
+        return arr[row][column] == value;
     }
 
     function getCell(row, column) {
-        if (validCords(row, column)) {
-            return arr[row][column];
-        } else {
-            return false;
-        }
+        return arr[row][column];
     }
 
     function setCell(row, column, value) {
-        if (validCords(row, column) && (value == "H" || value == "M" || value == "S")) {
+        if (value == "H" || value == "M" || value == "S") {
             arr[row][column] = value;
-            return true;
-        } else {
-            return false;
+        }
+    }
+
+    function hit(row, column) {
+        if (validCords(row, column)) {
+            if (isCellAt(row, column, "S")) {
+                setCell(row, column, "H");
+            } else if (isCellAt(row, column, " ")) {
+                setCell(row, column, "M");
+            }
         }
     }
 
     return {
         show,
         isCellAt,
-        isShipAt,
         getCell,
         setCell,
         hit,
