@@ -24,7 +24,7 @@ export default function Board() {
     }
 
     function validCords(row, column) {
-        if (row < 0 || row >= SIZE || column < 0 || column >= SIZE) {
+        if (isNaN(row) || isNaN(column) || row < 0 || row >= SIZE || column < 0 || column >= SIZE) {
             return false;
         } else {
             return true;
@@ -57,11 +57,20 @@ export default function Board() {
     }
 
     function getCell(row, column) {
-        return arr[row][column];
+        if (validCords(row, column)) {
+            return arr[row][column];
+        } else {
+            return false;
+        }
     }
 
     function setCell(row, column, value) {
-        if (value == "H" || value == "M" || value == "S") arr[row][column] = value;
+        if (validCords(row, column) && (value == "H" || value == "M" || value == "S")) {
+            arr[row][column] = value;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     return {

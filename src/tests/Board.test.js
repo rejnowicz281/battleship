@@ -25,5 +25,6 @@ describe("Board", () => {
         expect(board.validCords(-4, 504)).toBe(false);
         expect(board.validCords(-4, 0)).toBe(false);
         expect(board.validCords(0, 0)).toBe(true);
+        expect(board.validCords("4'fdf;dsd'9", "asmkas")).toBe(false);
     });
 });
