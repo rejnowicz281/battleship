@@ -7,11 +7,11 @@ export default function Ship(length, head, direction = "right") {
         for (let i = 0; i < length; i++) {
             let cord;
             if (direction == "right") {
-                cord = [head[0], head[1] + i];
+                cord = [head[0], head[1] - i];
             } else if (direction == "down") {
                 cord = [head[0] - i, head[1]];
             } else if (direction == "left") {
-                cord = [head[0], head[1] - i];
+                cord = [head[0], head[1] + i];
             } else if (direction == "up") {
                 cord = [head[0] + i, head[1]];
             }
