@@ -17,6 +17,29 @@ describe("Ship", () => {
         expect(ship.isDestroyed()).toBe(true);
     });
 
+    it("Checks if has cord", () => {
+        expect(ship.hasCord(0, 4)).toBe(false);
+        expect(ship.hasCord(0, 2)).toBe(true);
+    });
+
+    it("Can move to different cords", () => {
+        ship.moveTo(0, 1);
+        expect(ship.getCords()).toEqual([
+            [0, 1],
+            [0, 2],
+            [0, 3],
+        ]);
+    });
+
+    it("Doesn't move if bad cords are given", () => {
+        ship.moveTo("fdsifsjdfd", "sdfdsfdsfds");
+        expect(ship.getCords()).toEqual([
+            [0, 0],
+            [0, 1],
+            [0, 2],
+        ]);
+    });
+
     it("Rotates correctly", () => {
         ship.rotate(); // Left -> Up
         expect(ship.getCords()).toEqual([
@@ -41,15 +64,6 @@ describe("Ship", () => {
             [0, 0],
             [0, 1],
             [0, 2],
-        ]);
-    });
-
-    it("Can move to different cords", () => {
-        ship.moveTo(0, 1);
-        expect(ship.getCords()).toEqual([
-            [0, 1],
-            [0, 2],
-            [0, 3],
         ]);
     });
 });
