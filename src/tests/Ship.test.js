@@ -27,18 +27,6 @@ describe("Ship", () => {
     });
 
     it("Rotates correctly", () => {
-        ship.rotate(); // Right -> Down
-        expect(ship.getCords()).toEqual([
-            [0, 0],
-            [-1, 0],
-            [-2, 0],
-        ]);
-        ship.rotate(); // Down -> Left
-        expect(ship.getCords()).toEqual([
-            [0, 0],
-            [0, -1],
-            [0, -2],
-        ]);
         ship.rotate(); // Left -> Up
         expect(ship.getCords()).toEqual([
             [0, 0],
@@ -46,6 +34,18 @@ describe("Ship", () => {
             [2, 0],
         ]);
         ship.rotate(); // Up -> Right
+        expect(ship.getCords()).toEqual([
+            [0, 0],
+            [0, -1],
+            [0, -2],
+        ]);
+        ship.rotate(); // Right -> Down
+        expect(ship.getCords()).toEqual([
+            [0, 0],
+            [-1, 0],
+            [-2, 0],
+        ]);
+        ship.rotate(); // Down -> Left
         expect(ship.getCords()).toEqual([
             [0, 0],
             [0, 1],
