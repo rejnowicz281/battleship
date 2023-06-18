@@ -38,21 +38,18 @@ export default function Ship(length, head, direction = "left") {
     }
 
     function moveTo(row, column) {
-        head = [row, column];
-        cords = getCords();
-    }
-
-    function hit() {
-        if (!isDestroyed()) {
-            hits++;
-            return true;
-        } else {
-            return false;
+        if (!isNaN(row) && !isNaN(column)) {
+            head = [row, column];
+            cords = getCords();
         }
     }
 
+    function hit() {
+        hits++;
+    }
+
     function isDestroyed() {
-        return hits == length;
+        return hits >= length;
     }
 
     return {
