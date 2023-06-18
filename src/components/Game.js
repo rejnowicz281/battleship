@@ -50,9 +50,17 @@ export default function Game() {
                             column
                         )}`
                     );
-                    otherPlayer().board.show(false);
-                    currentPlayer = otherPlayer();
-                    return playTurn();
+                    let shipAtCell = getShipAt(row, column, otherPlayer());
+                    if (shipAtCell) {
+                        shipAtCell.hit();
+                    }
+                    otherPlayer().board.show();
+                    if (otherPlayer().allShipsDestroyed()) {
+                        return console.log(`Player '${currentPlayer.getName()}' has won the game.`);
+                    } else {
+                        currentPlayer = otherPlayer();
+                        return playTurn();
+                    }
                 } else {
                     console.log("Invalid hit. Try again.");
                 }
@@ -60,6 +68,15 @@ export default function Game() {
                 console.log("Invalid input. Try again.");
             }
         }
+    }
+
+    function getShipAt(row, column, player) {
+        for (let i = 0; i < player.getShips().length; i++) {
+            if (player.getShips()[i].hasCord(row, column)) {
+                return player.getShips()[i];
+            }
+        }
+        return null;
     }
 
     return {
