@@ -9,7 +9,8 @@ export default function Player(name = "Player") {
         let shipLength = 5;
 
         while (shipLength >= 1) {
-            console.log(`Player '${name}' choosing ship of length ${shipLength}:`);
+            console.log(`Player '${name}' choosing ship of length ${shipLength}. Player's board:`);
+            board.show();
             if (random) {
                 addRandomShip(shipLength);
             } else {
