@@ -1,4 +1,5 @@
-export default function Ship(length, head, direction = "right") {
+export default function Ship(length, head, direction = "left") {
+    let alive = true;
     let hits = [];
     let cords = getCords();
 
@@ -73,6 +74,8 @@ export default function Ship(length, head, direction = "right") {
         hit,
         isDestroyed,
         moveTo,
+        isAlive: () => alive,
+        destroy: () => (alive = false),
         getDirection: () => direction,
         getCords: () => cords,
         getHead: () => head,
