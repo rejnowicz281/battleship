@@ -72,9 +72,9 @@ export default function Player(name = "Player") {
     }
 
     function allShipsDestroyed() {
-        ships.forEach((ship) => {
-            if (!ship.isDestroyed()) return false;
-        });
+        for (let i = 0; i < ships.length; i++) {
+            if (!ships[i].isDestroyed()) return false;
+        }
         return true;
     }
 
@@ -82,6 +82,7 @@ export default function Player(name = "Player") {
         board,
         getName: () => name,
         allShipsDestroyed,
+        addShip,
         chooseStartShips,
         getShips: () => ships,
     };
