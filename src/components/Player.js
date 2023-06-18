@@ -1,7 +1,7 @@
 import Board from "./Board";
 import Ship from "./Ship";
 
-export default function Player() {
+export default function Player(name = "Player") {
     let board = Board();
     let ships = [];
 
@@ -70,6 +70,7 @@ export default function Player() {
 
     return {
         board,
+        getName: () => name,
         chooseStartShips,
         getShips: () => ships,
     };
