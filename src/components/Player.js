@@ -71,9 +71,17 @@ export default function Player(name = "Player") {
         return ship.getCords().some((cord) => !board.validCords(cord[0], cord[1]) || board.isShipAt(cord[0], cord[1]));
     }
 
+    function allShipsDestroyed() {
+        ships.forEach((ship) => {
+            if (!ship.isDestroyed()) return false;
+        });
+        return true;
+    }
+
     return {
         board,
         getName: () => name,
+        allShipsDestroyed,
         chooseStartShips,
         getShips: () => ships,
     };
