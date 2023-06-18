@@ -42,12 +42,15 @@ export default function Board() {
     }
 
     function hit(row, column) {
-        if (validCords(row, column)) {
+        if (validCords(row, column) && !isCellAt(row, column, "H") && !isCellAt(row, column, "M")) {
             if (isCellAt(row, column, "S")) {
                 setCell(row, column, "H");
             } else if (isCellAt(row, column, " ")) {
                 setCell(row, column, "M");
             }
+            return true;
+        } else {
+            return false;
         }
     }
 
