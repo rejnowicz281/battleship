@@ -17,8 +17,8 @@ export default function Game() {
     }
 
     function placeRandomShips() {
-        players[0].placeFiveRandomShips();
-        players[1].placeFiveRandomShips();
+        players[0].placeRandomShips();
+        players[1].placeRandomShips();
 
         console.log("---- RANDOM SHIPS PLACED ----");
     }
