@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import Player from "../components/Player.js";
+import { NUM_OF_SHIPS } from "../config.js";
 
 describe("Player", () => {
     let player;
@@ -13,6 +14,16 @@ describe("Player", () => {
             expect(player.placeShip(2, [0, 0])).toBe(true);
             expect(player.placeShip(2, [0, 0])).toBe(false); // Another ship is in the same position
         });
+    });
+
+    it("Can't add too many ships", () => {
+        player.placeRandomShips();
+        expect(player.placeRandomShip()).toBe(false);
+    });
+
+    it("Adds appropriate number of ships", () => {
+        player.placeRandomShips();
+        expect(player.getShips().length).toBe(NUM_OF_SHIPS);
     });
 
     it("Detects if all ships are destroyed", () => {
