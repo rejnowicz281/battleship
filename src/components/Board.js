@@ -1,9 +1,9 @@
-export default function Board() {
-    const SIZE = 10;
+import { BOARD_SIZE } from "../config";
 
-    let arr = Array(SIZE)
+export default function Board() {
+    let arr = Array(BOARD_SIZE)
         .fill(" ")
-        .map(() => Array(SIZE).fill(" "));
+        .map(() => Array(BOARD_SIZE).fill(" "));
 
     function show(showShips = true) {
         console.log(" ");
@@ -20,11 +20,11 @@ export default function Board() {
     }
 
     function getRandomCoordinates() {
-        return [Math.floor(Math.random() * SIZE), Math.floor(Math.random() * SIZE)];
+        return [Math.floor(Math.random() * BOARD_SIZE), Math.floor(Math.random() * BOARD_SIZE)];
     }
 
     function validCords(row, column) {
-        return !(isNaN(row) || isNaN(column) || row < 0 || row >= SIZE || column < 0 || column >= SIZE);
+        return !(isNaN(row) || isNaN(column) || row < 0 || row >= BOARD_SIZE || column < 0 || column >= BOARD_SIZE);
     }
 
     function isCellAt(row, column, value) {
@@ -62,6 +62,5 @@ export default function Board() {
         hit,
         validCords,
         getRandomCoordinates,
-        getSize: () => SIZE,
     };
 }
