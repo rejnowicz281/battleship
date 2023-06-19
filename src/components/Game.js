@@ -1,30 +1,24 @@
 import Player from "./Player.js";
 
 export default function Game() {
-    let playerHuman = Player("Human");
-    let playerComputer = Player("Computer");
-
+    const players = [Player("Human"), Player("Computer")];
     let currentPlayer = getRandomPlayer();
 
     function getRandomPlayer() {
-        if (Math.random() > 0.5) {
-            return playerHuman;
-        } else {
-            return playerComputer;
-        }
+        return players[Math.round(Math.random())];
     }
 
     function otherPlayer() {
-        if (currentPlayer == playerHuman) {
-            return playerComputer;
+        if (currentPlayer == players[0]) {
+            return players[1];
         } else {
-            return playerHuman;
+            return players[0];
         }
     }
 
     function placeShips() {
-        playerHuman.chooseStartShips(true);
-        playerComputer.chooseStartShips(true);
+        players[0].chooseStartShips(true);
+        players[1].chooseStartShips(true);
 
         console.log("---- SHIPS PLACED ----");
     }
@@ -65,7 +59,17 @@ export default function Game() {
         return null;
     }
 
+    function getPlayer(name) {
+        for (let player in players) {
+            if (players[player].getName() == name) {
+                return players[player];
+            }
+        }
+        return null;
+    }
+
     return {
+        getPlayer,
         placeShips,
         playTurn,
         getCurrentInfo,
