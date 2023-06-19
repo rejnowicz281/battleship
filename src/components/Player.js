@@ -5,55 +5,30 @@ export default function Player(name = "Player") {
     let board = Board();
     let ships = [];
 
-    function chooseStartShips(random = false) {
+    function placeFiveRandomShips() {
         let shipLength = 5;
 
         while (shipLength >= 1) {
-            console.log(`Player '${name}' choosing ship of length ${shipLength}. Player's board:`);
+            console.log(`Player '${name}' adding random ship of length ${shipLength}. Player's board:`);
             board.show();
-            if (random) {
-                addRandomShip(shipLength);
-            } else {
-                chooseShip(shipLength);
-            }
+            placeRandomShip(shipLength);
             shipLength--;
         }
     }
 
-    function chooseShip(shipLength) {
-        let ship = Ship(shipLength, [0, 0]);
-
-        while (true) {
-            let input = prompt(
-                `Current direction: ${ship.getDirection()}. \nType 'R' if you want to rotate your ship.\nType in coordinates (eg. 0,0) to place a ship.`
-            );
-
-            let cordsPattern = /^\d+,\d+$/;
-
-            if (input == "R" || input == "r") {
-                ship.rotate();
-            } else if (cordsPattern.test(input)) {
-                let row = parseInt(input.split(",")[0]);
-                let column = parseInt(input.split(",")[1]);
-                ship.moveTo(row, column);
-                if (addShip(ship)) break;
-            } else {
-                console.log("Invalid input. Try again.");
-            }
-        }
-    }
-
-    function addRandomShip(shipLength) {
+    function placeRandomShip(shipLength) {
         let shipHead = board.getRandomCoordinates();
-        let randomShip = Ship(shipLength, shipHead);
-        if (Math.random() > 0.5) randomShip.rotate();
-        if (!addShip(randomShip)) {
-            addRandomShip(shipLength);
+        let shipDirection = ["left", "right", "up", "down"][Math.floor(Math.random() * 4)];
+
+        if (!placeShip(shipLength, shipHead, shipDirection)) {
+            placeRandomShip(shipLength);
         }
     }
 
-    function addShip(ship) {
-        if (!illegalShip(ship)) {
+    function placeShip(...shipArgs) {
+        let ship = Ship(...shipArgs);
+
+        if (!illegalShip(ship) || ships.length >= 5) {
             ship.getCords().forEach((cord) => {
                 board.setCell(cord[0], cord[1], "S");
             });
@@ -84,8 +59,9 @@ export default function Player(name = "Player") {
         board,
         getName: () => name,
         allShipsDestroyed,
-        addShip,
-        chooseStartShips,
+        placeShip,
+        placeRandomShip,
+        placeFiveRandomShips,
         getShips: () => ships,
     };
 }

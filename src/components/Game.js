@@ -16,11 +16,11 @@ export default function Game() {
         }
     }
 
-    function placeShips() {
-        players[0].chooseStartShips(true);
-        players[1].chooseStartShips(true);
+    function placeRandomShips() {
+        players[0].placeFiveRandomShips();
+        players[1].placeFiveRandomShips();
 
-        console.log("---- SHIPS PLACED ----");
+        console.log("---- RANDOM SHIPS PLACED ----");
     }
 
     function getCurrentInfo() {
@@ -73,7 +73,7 @@ export default function Game() {
 
     return {
         getPlayer,
-        placeShips,
+        placeRandomShips,
         playRandomTurn,
         playTurn,
         getCurrentInfo,
