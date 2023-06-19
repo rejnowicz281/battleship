@@ -22,51 +22,37 @@ export default function Game() {
         }
     }
 
-    function start() {
-        playerHuman.chooseStartShips();
+    function placeShips() {
+        playerHuman.chooseStartShips(true);
         playerComputer.chooseStartShips(true);
 
-        console.log("---- GAME STARTED ----");
-        playTurn();
+        console.log("---- SHIPS PLACED ----");
     }
 
-    function playTurn() {
+    function getCurrentInfo() {
         console.log(`Player '${currentPlayer.getName()}' is playing. His board: `);
         currentPlayer.board.show();
-        while (true) {
-            console.log(`Opponent's board:`);
-            otherPlayer().board.show(false);
-            let input = prompt(`Current Player: ${currentPlayer.getName()}.\nType in coordinates (eg. 0,0) to shoot.`);
+        console.log(`Opponent's board:`);
+        otherPlayer().board.show(true);
+    }
 
-            let cordsPattern = /^\d+,\d+$/;
-
-            if (cordsPattern.test(input)) {
-                let row = parseInt(input.split(",")[0]);
-                let column = parseInt(input.split(",")[1]);
-                if (otherPlayer().board.hit(row, column)) {
-                    console.log(
-                        `Player '${currentPlayer.getName()}' has shot at (${row},${column}). ${otherPlayer().board.getCell(
-                            row,
-                            column
-                        )}`
-                    );
-                    let shipAtCell = getShipAt(row, column, otherPlayer());
-                    if (shipAtCell) {
-                        shipAtCell.hit();
-                    }
-                    otherPlayer().board.show(false);
-                    if (otherPlayer().allShipsDestroyed()) {
-                        return console.log(`Player '${currentPlayer.getName()}' has won the game.`);
-                    } else {
-                        currentPlayer = otherPlayer();
-                        return playTurn();
-                    }
-                } else {
-                    console.log("Invalid hit. Try again.");
-                }
-            } else {
-                console.log("Invalid input. Try again.");
+    function playTurn(row, column) {
+        if (otherPlayer().board.hit(row, column)) {
+            console.log(
+                `Player '${currentPlayer.getName()}' has shot at (${row},${column}). ${otherPlayer().board.getCell(
+                    row,
+                    column
+                )}`
+            );
+            let shipAtCell = getShipAt(row, column, otherPlayer());
+            if (shipAtCell) {
+                shipAtCell.hit();
+                if (otherPlayer().allShipsDestroyed())
+                    return console.log(`Player '${currentPlayer.getName()}' has won the game.`);
             }
+            currentPlayer = otherPlayer();
+        } else {
+            console.log("Illegal hit. Try again.");
         }
     }
 
@@ -80,6 +66,8 @@ export default function Game() {
     }
 
     return {
-        start,
+        placeShips,
+        playTurn,
+        getCurrentInfo,
     };
 }
