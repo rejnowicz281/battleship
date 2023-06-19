@@ -28,7 +28,7 @@ export default function Player(name = "Player") {
     function placeShip(...shipArgs) {
         let ship = Ship(...shipArgs);
 
-        if (!illegalShip(ship) || ships.length >= 5) {
+        if (!illegalShip(ship)) {
             ship.getCords().forEach((cord) => {
                 board.setCell(cord[0], cord[1], "S");
             });
