@@ -30,14 +30,15 @@ export default function Game() {
         otherPlayer().board.show(true);
     }
 
+    function playRandomTurn() {
+        let randomCords = currentPlayer.board.getRandomCoordinates();
+        if (!playTurn(randomCords[0], randomCords[1])) return playRandomTurn();
+    }
+
     function playTurn(row, column) {
+        console.log(`Player '${currentPlayer.getName()}' has shot at (${row},${column}).`);
         if (otherPlayer().board.hit(row, column)) {
-            console.log(
-                `Player '${currentPlayer.getName()}' has shot at (${row},${column}). ${otherPlayer().board.getCell(
-                    row,
-                    column
-                )}`
-            );
+            console.log(otherPlayer().board.getCell(row, column));
             let shipAtCell = getShipAt(row, column, otherPlayer());
             if (shipAtCell) {
                 shipAtCell.hit();
@@ -45,8 +46,10 @@ export default function Game() {
                     return console.log(`Player '${currentPlayer.getName()}' has won the game.`);
             }
             currentPlayer = otherPlayer();
+            return true;
         } else {
             console.log("Illegal hit. Try again.");
+            return false;
         }
     }
 
@@ -71,6 +74,7 @@ export default function Game() {
     return {
         getPlayer,
         placeShips,
+        playRandomTurn,
         playTurn,
         getCurrentInfo,
     };
