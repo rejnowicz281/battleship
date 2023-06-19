@@ -8,3 +8,4 @@ game.placeShips();
 window.placeShips = game.placeShips;
 window.playTurn = game.playTurn;
 window.getCurrentInfo = game.getCurrentInfo;
+window.getPlayer = game.getPlayer;
