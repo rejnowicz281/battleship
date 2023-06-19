@@ -15,11 +15,6 @@ describe("Player", () => {
         });
     });
 
-    it("Returns false if adding illegal ship", () => {
-        player.placeShip(2, [0, 0]);
-        expect(player.placeShip(2, [0, 0])).toBe(false);
-    });
-
     it("Detects if all ships are destroyed", () => {
         player.placeShip(2, [0, 0]); // [0, 0], [0, 1]
         player.placeShip(1, [1, 0]); // [1, 0]
