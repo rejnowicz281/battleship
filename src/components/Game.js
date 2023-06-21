@@ -8,7 +8,7 @@ export default function Game() {
         return players[Math.round(Math.random())];
     }
 
-    function otherPlayer() {
+    function getOtherPlayer() {
         if (currentPlayer == players[0]) {
             return players[1];
         } else {
@@ -27,7 +27,7 @@ export default function Game() {
         console.log(`Player '${currentPlayer.getName()}' is playing. His board: `);
         currentPlayer.board.show();
         console.log(`Opponent's board:`);
-        otherPlayer().board.show(true);
+        getOtherPlayer().board.show(true);
     }
 
     function playRandomTurn() {
@@ -37,15 +37,15 @@ export default function Game() {
 
     function playTurn(row, column) {
         console.log(`Player '${currentPlayer.getName()}' has shot at (${row},${column}).`);
-        if (otherPlayer().board.hit(row, column)) {
-            console.log(otherPlayer().board.getCell(row, column));
-            let shipAtCell = getShipAt(row, column, otherPlayer());
+        if (getOtherPlayer().board.hit(row, column)) {
+            console.log(getOtherPlayer().board.getCell(row, column));
+            let shipAtCell = getShipAt(row, column, getOtherPlayer());
             if (shipAtCell) {
                 shipAtCell.hit();
-                if (otherPlayer().allShipsDestroyed())
+                if (getOtherPlayer().allShipsDestroyed())
                     return console.log(`Player '${currentPlayer.getName()}' has won the game.`);
             }
-            currentPlayer = otherPlayer();
+            currentPlayer = getOtherPlayer();
             return true;
         } else {
             console.log("Illegal hit. Try again.");
@@ -72,6 +72,8 @@ export default function Game() {
     }
 
     return {
+        getCurrentPlayer: () => currentPlayer,
+        getOtherPlayer,
         getPlayer,
         placeRandomShips,
         playRandomTurn,
