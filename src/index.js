@@ -1,4 +1,4 @@
-import "./assets/main.css";
+import "./assets/main.scss";
 import Game from "./components/Game";
 import render from "./render.js";
 
