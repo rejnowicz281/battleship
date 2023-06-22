@@ -1,8 +1,9 @@
 import { BOARD_SIZE } from "./config";
 
 export default function render(game) {
-    let humanBoard = document.getElementById("human-board");
-    let computerBoard = document.getElementById("computer-board");
+    const humanBoard = document.getElementById("human-board");
+    const computerBoard = document.getElementById("computer-board");
+    const feedback = document.querySelector(".feedback");
 
     function renderBoard(board, player) {
         board.innerHTML = "";
@@ -36,15 +37,26 @@ export default function render(game) {
             }
         }
     }
+
     function computerAutoPlay() {
         if (game.getCurrentPlayer().getName() == "Computer") {
             game.playRandomTurn(); // Automatically play computer turn
         }
     }
+
+    function renderWin() {
+        if (game.getPlayer("Human").allShipsDestroyed()) {
+            feedback.textContent = "Computer wins!";
+        } else if (game.getPlayer("Computer").allShipsDestroyed()) {
+            feedback.textContent = "Human wins!";
+        }
+    }
+
     function update() {
         computerAutoPlay();
         renderBoard(humanBoard, game.getPlayer("Human"));
         renderBoard(computerBoard, game.getPlayer("Computer"));
+        renderWin();
     }
 
     update();
