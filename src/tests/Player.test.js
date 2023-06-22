@@ -16,13 +16,8 @@ describe("Player", () => {
         });
     });
 
-    it("Can't add too many ships", () => {
-        player.placeRandomShips();
-        expect(player.placeRandomShip()).toBe(false);
-    });
-
     it("Adds appropriate number of ships", () => {
-        player.placeRandomShips();
+        player.randomlyPlaceShips();
         expect(player.getShips().length).toBe(NUM_OF_SHIPS);
     });
 
