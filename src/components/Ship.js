@@ -1,6 +1,5 @@
 export default function Ship(length, head, direction = "left") {
     let hits = 0;
-    let cords = getCords();
 
     function getCords() {
         let cords = [];
@@ -21,7 +20,7 @@ export default function Ship(length, head, direction = "left") {
     }
 
     function hasCord(row, column) {
-        return cords.some((cord) => cord[0] == row && cord[1] == column);
+        return getCords().some((cord) => cord[0] == row && cord[1] == column);
     }
 
     function rotate() {
@@ -34,13 +33,11 @@ export default function Ship(length, head, direction = "left") {
         } else if (direction == "up") {
             direction = "right";
         }
-        cords = getCords();
     }
 
     function moveTo(row, column) {
         if (!isNaN(row) && !isNaN(column)) {
             head = [row, column];
-            cords = getCords();
         }
     }
 
@@ -58,8 +55,8 @@ export default function Ship(length, head, direction = "left") {
         isDestroyed,
         moveTo,
         hasCord,
+        getCords,
         getDirection: () => direction,
-        getCords: () => cords,
         getHead: () => head,
         getHits: () => hits,
         getLength: () => length,
