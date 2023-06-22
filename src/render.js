@@ -7,7 +7,22 @@ export default function render(game) {
     const boardPlayerName = document.querySelector(".board-player-name");
     const feedback = document.querySelector(".feedback");
     const shipsLeft = document.getElementById("ships-left");
+    const rotateButton = document.getElementById("rotate-ship");
+    const currentShipDirection = document.getElementById("current-ship-direction");
 
+    currentShipDirection.textContent = "left";
+
+    rotateButton.onclick = () => {
+        if (currentShipDirection.textContent == "left") {
+            currentShipDirection.textContent = "up";
+        } else if (currentShipDirection.textContent == "up") {
+            currentShipDirection.textContent = "right";
+        } else if (currentShipDirection.textContent == "right") {
+            currentShipDirection.textContent = "down";
+        } else if (currentShipDirection.textContent == "down") {
+            currentShipDirection.textContent = "left";
+        }
+    };
     function renderBoard(board, player) {
         board.innerHTML = "";
         let cell;
@@ -28,8 +43,9 @@ export default function render(game) {
                     };
                 } else if (board == humanBoard && !game.getPlayer("Human").shipLimit()) {
                     cell.onclick = () => {
+                        let shipDirection = currentShipDirection.textContent;
                         let shipsLeft = NUM_OF_SHIPS - game.getPlayer("Human").getShips().length;
-                        game.getPlayer("Human").placeShip(shipsLeft, [row, column]);
+                        game.getPlayer("Human").placeShip(shipsLeft, [row, column], shipDirection);
                         update(game);
                     };
                 }
@@ -72,6 +88,7 @@ export default function render(game) {
             renderBoard(computerBoard, game.getPlayer("Computer"));
             boardPlayerName.classList.remove("d-none");
             computerBoardContainer.classList.remove("d-none");
+            rotateButton.classList.add("d-none");
             renderWin();
         } else {
             shipsLeft.textContent = NUM_OF_SHIPS - game.getPlayer("Human").getShips().length;
