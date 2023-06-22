@@ -12,10 +12,11 @@ export default function Player(name = "Player") {
         let shipLength = NUM_OF_SHIPS;
 
         while (shipLength >= 1) {
-            if (shipLimit()) break;
+            if (shipLimit()) return false;
             randomlyPlaceShip(shipLength);
             shipLength--;
         }
+        return true;
     }
 
     function randomlyPlaceShip(shipLength) {
@@ -81,7 +82,7 @@ export default function Player(name = "Player") {
         shipLimit,
         allShipsDestroyed,
         placeShip,
-        randomlyPlaceShips,
+        randomlyPlaceShip,
         randomlyPlaceShips,
         getShips: () => ships,
     };
