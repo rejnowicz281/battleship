@@ -4,8 +4,6 @@ export default function render(game) {
     let humanBoard = document.getElementById("human-board");
     let computerBoard = document.getElementById("computer-board");
 
-    game.placeRandomShips(); // Place ships randomly - Will implement manual ship placing
-
     function renderBoard(board, player) {
         board.innerHTML = "";
         let cell;
@@ -14,11 +12,10 @@ export default function render(game) {
             for (let column = 0; column < BOARD_SIZE; column++) {
                 cell = document.createElement("div");
                 cell.classList.add("board-cell");
-                cell.dataset.row = row;
-                cell.dataset.column = column;
                 if (
                     game.getCurrentPlayer().getName() == "Human" &&
-                    !game.getOtherPlayer().allShipsDestroyed() &&
+                    !game.getPlayer("Computer").allShipsDestroyed() &&
+                    !game.getPlayer("Human").allShipsDestroyed() &&
                     board == computerBoard
                 ) {
                     cell.onclick = () => {
@@ -26,30 +23,24 @@ export default function render(game) {
                         update(game);
                     };
                 }
-                renderCell(cell, player);
+                let gameCell = player.getBoard().getCell(row, column);
+                if (gameCell == "S" && player.getName() == "Human") {
+                    cell.classList.add("ship");
+                } else if (gameCell == "H") {
+                    cell.classList.remove("ship");
+                    cell.classList.add("hit");
+                } else if (gameCell == "M") {
+                    cell.classList.add("miss");
+                }
                 board.appendChild(cell);
             }
         }
     }
-
-    function renderCell(domCell, player) {
-        let gameCell = player.board.getCell(parseInt(domCell.dataset.row), parseInt(domCell.dataset.column));
-        if (gameCell == "S" && player.getName() == "Human") {
-            domCell.classList.add("ship");
-        } else if (gameCell == "H") {
-            domCell.classList.remove("ship");
-            domCell.classList.add("hit");
-        } else if (gameCell == "M") {
-            domCell.classList.add("miss");
-        }
-    }
-
     function computerAutoPlay() {
         if (game.getCurrentPlayer().getName() == "Computer") {
             game.playRandomTurn(); // Automatically play computer turn
         }
     }
-
     function update() {
         computerAutoPlay();
         renderBoard(humanBoard, game.getPlayer("Human"));

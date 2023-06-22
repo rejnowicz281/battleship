@@ -1,3 +1,4 @@
+import { boardRandomCoordinates, boardValidCords } from "../helpers.js";
 import Board from "./Board";
 import Ship from "./Ship";
 
@@ -7,34 +8,24 @@ export default function Player(name = "Player") {
     let board = Board();
     let ships = [];
 
-    function placeRandomShips() {
-        if (!shipLimit()) {
-            let shipLength = NUM_OF_SHIPS;
+    function randomlyPlaceShips() {
+        let shipLength = NUM_OF_SHIPS;
 
-            while (shipLength >= 1) {
-                console.log(`Player '${name}' adding random ship of length ${shipLength}. Player's board:`);
-                board.show();
-                placeRandomShip(shipLength);
-                shipLength--;
-            }
+        while (shipLength >= 1) {
+            if (shipLimit()) break;
+            randomlyPlaceShip(shipLength);
+            shipLength--;
         }
     }
 
-    function placeRandomShip(shipLength) {
-        if (!shipLimit()) {
-            let shipHead = board.getRandomCoordinates();
+    function randomlyPlaceShip(shipLength) {
+        console.log(`Player '${name}' adding random ship of length ${shipLength}. `);
+        while (true) {
+            let shipHead = boardRandomCoordinates();
             let shipDirection = ["left", "right", "up", "down"][Math.floor(Math.random() * 4)];
 
-            let ship = Ship(shipLength, shipHead, shipDirection);
-
-            if (!illegalShip(ship)) {
-                instantiateShip(ship);
-                return true;
-            } else {
-                placeRandomShip(shipLength);
-            }
-        } else {
-            return false;
+            let place = placeShip(shipLength, shipHead, shipDirection);
+            if (place) return place;
         }
     }
 
@@ -51,15 +42,16 @@ export default function Player(name = "Player") {
 
     function instantiateShip(ship) {
         ship.getCords().forEach((cord) => {
-            board.setCell(cord[0], cord[1], "S");
+            board.placeShip(cord[0], cord[1]);
         });
         ships.push(ship);
         console.log(`Ship added: (${ship.getCords().join("), (")})`);
+        board.show();
     }
 
     function shipLimit() {
         if (ships.length > NUM_OF_SHIPS - 1) {
-            console.log(`Player '${name}' can't add any more ships!`);
+            console.log(`Player '${name}' has reached his ship limit.`);
             return true;
         } else {
             return false;
@@ -67,29 +59,30 @@ export default function Player(name = "Player") {
     }
 
     function illegalShip(ship) {
-        if (
-            ship.getCords().some((cord) => !board.validCords(cord[0], cord[1]) || board.isCellAt(cord[0], cord[1], "S"))
-        ) {
+        if (ship.getCords().some((cord) => !boardValidCords(cord[0], cord[1]) || board.shipAt(cord[0], cord[1]))) {
             console.log(`Illegal ship detected: (${ship.getCords().join("), (")})`);
             return true;
+        } else {
+            return false;
         }
     }
 
     function allShipsDestroyed() {
-        for (let i = 0; i < ships.length; i++) {
-            if (!ships[i].isDestroyed()) return false;
+        for (let shipIndex in ships) {
+            if (!ships[shipIndex].isDestroyed()) return false;
         }
+        console.log(`All of '${name}' ships destroyed.`);
         return true;
     }
 
     return {
-        board,
+        getBoard: () => board,
         getName: () => name,
         shipLimit,
         allShipsDestroyed,
         placeShip,
-        placeRandomShip,
-        placeRandomShips,
+        randomlyPlaceShips,
+        randomlyPlaceShips,
         getShips: () => ships,
     };
 }

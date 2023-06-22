@@ -1,3 +1,4 @@
+import { boardRandomCoordinates } from "../helpers.js";
 import Player from "./Player.js";
 
 export default function Game() {
@@ -16,29 +17,33 @@ export default function Game() {
         }
     }
 
-    function placeRandomShips() {
-        players[0].placeRandomShips();
-        players[1].placeRandomShips();
+    function randomlyPlaceShips() {
+        players[0].randomlyPlaceShips();
+        players[1].randomlyPlaceShips();
 
         console.log("---- RANDOM SHIPS PLACED ----");
     }
 
     function getCurrentInfo() {
         console.log(`Player '${currentPlayer.getName()}' is playing. His board: `);
-        currentPlayer.board.show();
+        currentPlayer.getBoard().show();
         console.log(`Opponent's board:`);
-        getOtherPlayer().board.show(true);
+        getOtherPlayer().getBoard().show();
     }
 
     function playRandomTurn() {
-        let randomCords = currentPlayer.board.getRandomCoordinates();
-        if (!playTurn(randomCords[0], randomCords[1])) return playRandomTurn();
+        while (true) {
+            let randomCords = boardRandomCoordinates();
+
+            let turn = playTurn(randomCords[0], randomCords[1]);
+            if (turn) return turn;
+        }
     }
 
     function playTurn(row, column) {
         console.log(`Player '${currentPlayer.getName()}' has shot at (${row},${column}).`);
-        if (getOtherPlayer().board.hit(row, column)) {
-            console.log(getOtherPlayer().board.getCell(row, column));
+        if (getOtherPlayer().getBoard().hit(row, column)) {
+            console.log(getOtherPlayer().getBoard().getCell(row, column));
             let shipAtCell = getShipAt(row, column, getOtherPlayer());
             if (shipAtCell) {
                 shipAtCell.hit();
@@ -75,7 +80,7 @@ export default function Game() {
         getCurrentPlayer: () => currentPlayer,
         getOtherPlayer,
         getPlayer,
-        placeRandomShips,
+        randomlyPlaceShips,
         playRandomTurn,
         playTurn,
         getCurrentInfo,
