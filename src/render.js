@@ -49,6 +49,8 @@ export default function render(game) {
             feedback.textContent = "Computer wins!";
         } else if (game.getPlayer("Computer").allShipsDestroyed()) {
             feedback.textContent = "Human wins!";
+        } else {
+            feedback.textContent = "";
         }
     }
 
