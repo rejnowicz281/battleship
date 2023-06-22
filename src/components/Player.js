@@ -20,13 +20,17 @@ export default function Player(name = "Player") {
     }
 
     function randomlyPlaceShip(shipLength) {
-        console.log(`Player '${name}' adding random ship of length ${shipLength}. `);
-        while (true) {
-            let shipHead = boardRandomCoordinates();
-            let shipDirection = ["left", "right", "up", "down"][Math.floor(Math.random() * 4)];
+        if (!shipLimit()) {
+            console.log(`Player '${name}' adding random ship of length ${shipLength}. `);
+            while (true) {
+                let shipHead = boardRandomCoordinates();
+                let shipDirection = ["left", "right", "up", "down"][Math.floor(Math.random() * 4)];
 
-            let place = placeShip(shipLength, shipHead, shipDirection);
-            if (place) return place;
+                let place = placeShip(shipLength, shipHead, shipDirection);
+                if (place) return place;
+            }
+        } else {
+            return false;
         }
     }
 
@@ -69,11 +73,15 @@ export default function Player(name = "Player") {
     }
 
     function allShipsDestroyed() {
-        for (let shipIndex in ships) {
-            if (!ships[shipIndex].isDestroyed()) return false;
+        if (ships.length > 0) {
+            for (let shipIndex in ships) {
+                if (!ships[shipIndex].isDestroyed()) return false;
+            }
+            console.log(`All of '${name}' ships destroyed.`);
+            return true;
+        } else {
+            return false;
         }
-        console.log(`All of '${name}' ships destroyed.`);
-        return true;
     }
 
     return {

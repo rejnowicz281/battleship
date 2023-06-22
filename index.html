@@ -7,14 +7,17 @@
     </head>
     <body class="vw-100 vh-100">
         <div class="w-100 h-100 d-flex flex-column justify-content-center align-items-center" id="app">
-            <h1 class="feedback"></h1>
+            <div class="feedback text-center">
+                <h1>Place your ships</h1>
+                <span>Ships left: <span id="ships-left"></span></span>
+            </div>
             <div class="boards-container d-flex">
-                <div>
-                    Human
+                <div class="human-board-container">
+                    <span class="board-player-name d-none">Human</span>
                     <div class="board" id="human-board"></div>
                 </div>
-                <div>
-                    Computer
+                <div class="computer-board-container d-none">
+                    <span class="board-player-name">Computer</span>
                     <div class="board" id="computer-board"></div>
                 </div>
             </div>

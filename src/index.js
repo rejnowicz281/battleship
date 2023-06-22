@@ -4,8 +4,6 @@ import render from "./render.js";
 
 let game = Game();
 
-game.randomlyPlaceShips();
-
 Object.keys(game).forEach((func) => {
     window[func] = game[func];
 });

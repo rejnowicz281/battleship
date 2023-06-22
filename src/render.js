@@ -1,9 +1,12 @@
-import { BOARD_SIZE } from "./config";
+import { BOARD_SIZE, NUM_OF_SHIPS } from "./config";
 
 export default function render(game) {
     const humanBoard = document.getElementById("human-board");
     const computerBoard = document.getElementById("computer-board");
+    const computerBoardContainer = document.querySelector(".computer-board-container");
+    const boardPlayerName = document.querySelector(".board-player-name");
     const feedback = document.querySelector(".feedback");
+    const shipsLeft = document.getElementById("ships-left");
 
     function renderBoard(board, player) {
         board.innerHTML = "";
@@ -21,6 +24,12 @@ export default function render(game) {
                 ) {
                     cell.onclick = () => {
                         game.playTurn(row, column);
+                        update(game);
+                    };
+                } else if (board == humanBoard && !game.getPlayer("Human").shipLimit()) {
+                    cell.onclick = () => {
+                        let shipsLeft = NUM_OF_SHIPS - game.getPlayer("Human").getShips().length;
+                        game.getPlayer("Human").placeShip(shipsLeft, [row, column]);
                         update(game);
                     };
                 }
@@ -46,19 +55,28 @@ export default function render(game) {
 
     function renderWin() {
         if (game.getPlayer("Human").allShipsDestroyed()) {
-            feedback.textContent = "Computer wins!";
+            feedback.innerHTML = "<h1>Computer wins!</h1>!";
         } else if (game.getPlayer("Computer").allShipsDestroyed()) {
-            feedback.textContent = "Human wins!";
+            feedback.innerHTML = "<h1>Human wins!</h1>";
         } else {
             feedback.textContent = "";
         }
     }
 
     function update() {
-        computerAutoPlay();
+        if (game.getPlayer("Human").shipLimit()) {
+            if (NUM_OF_SHIPS - game.getPlayer("Computer").getShips().length == NUM_OF_SHIPS) {
+                game.getPlayer("Computer").randomlyPlaceShips();
+            }
+            computerAutoPlay();
+            renderBoard(computerBoard, game.getPlayer("Computer"));
+            boardPlayerName.classList.remove("d-none");
+            computerBoardContainer.classList.remove("d-none");
+            renderWin();
+        } else {
+            shipsLeft.textContent = NUM_OF_SHIPS - game.getPlayer("Human").getShips().length;
+        }
         renderBoard(humanBoard, game.getPlayer("Human"));
-        renderBoard(computerBoard, game.getPlayer("Computer"));
-        renderWin();
     }
 
     update();
