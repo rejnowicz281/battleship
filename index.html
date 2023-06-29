@@ -5,26 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Battleship</title>
     </head>
-    <body class="vw-100 vh-100">
-        <div class="w-100 h-100 d-flex flex-column justify-content-center align-items-center" id="app">
-            <div class="feedback text-center">
-                <h1>Place your ships</h1>
-                <span>Ships left: <span id="ships-left"></span></span>
-            </div>
-            <button class="btn btn-primary m-1" id="rotate-ship">
-                Rotate Ship (Current Direction - <span id="current-ship-direction"></span>)
-            </button>
-            <div class="boards-container d-flex">
-                <div class="human-board-container">
-                    <span class="board-player-name d-none">Human</span>
-                    <div class="board" id="human-board"></div>
-                </div>
-                <div class="computer-board-container d-none">
-                    <span class="board-player-name">Computer</span>
-                    <div class="board" id="computer-board"></div>
-                </div>
-            </div>
-        </div>
-        <script type="module" src="src/index.js"></script>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/index.jsx"></script>
     </body>
 </html>
