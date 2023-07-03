@@ -14,3 +14,7 @@ export function boardRandomCoordinates() {
         column: Math.floor(Math.random() * BOARD_SIZE),
     };
 }
+
+export function randomDirection() {
+    return ["up", "down", "left", "right"][Math.floor(Math.random() * 4)];
+}

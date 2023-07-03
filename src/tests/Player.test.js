@@ -17,7 +17,7 @@ describe("Player", () => {
     });
 
     it("Adds appropriate number of ships", () => {
-        player.randomlyPlaceShips();
+        player.fillBoard();
         expect(player.getShips().length).toBe(NUM_OF_SHIPS);
     });
 
