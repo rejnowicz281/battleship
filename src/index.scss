@@ -9,13 +9,14 @@
     width: 50px;
     height: 50px;
     margin: 1px;
+    border-radius: 7px;
 }
 
-#computer-board .board-cell {
+.computer-board-container .board-cell {
     cursor: pointer;
 }
 
-#computer-board .board-cell:hover {
+.computer-board-container .board-cell:hover {
     background-color: rgb(33, 160, 160);
 }
 
