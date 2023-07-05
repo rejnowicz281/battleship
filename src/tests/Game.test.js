@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import Game from "../components/Game.js";
+import Game from "../Game";
 
 describe("Game", () => {
     const game = Game();

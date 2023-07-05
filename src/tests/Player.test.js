@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import Player from "../components/Player.js";
-import { NUM_OF_SHIPS } from "../config.js";
+import Player from "../Game/Player.js";
+import { NUM_OF_SHIPS } from "../helpers/config";
 
 describe("Player", () => {
     let player;
